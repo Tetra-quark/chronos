@@ -27,12 +27,14 @@ def validate_inputs(value):
 
 def main():
 
+	# Initialise window
 	window = tk.Tk()
 
 	window.title("Precision Timing Calculator")
 	window.geometry("300x300")
 	window.resizable(width=False, height=False)
 
+	# Initialise and position frames
 	input_frame = 	tk.Frame(master=window, height=200)
 	button_frame = 	tk.Frame(master=window, height=100)
 	result_frame = 	tk.Frame(master=window, height=100)
@@ -41,7 +43,6 @@ def main():
 	button_frame.grid(row=1, column=0)
 	result_frame.grid(row=2, column=0, sticky='nesw')
 
-	
 	start_h = 	tk.Entry(master=input_frame, fg="blue", bg="white", width=2)
 	start_m = 	tk.Entry(master=input_frame, fg="blue", bg="white", width=2)
 	start_s = 	tk.Entry(master=input_frame, fg="blue", bg="white", width=2)
@@ -108,7 +109,6 @@ def main():
 	finish_s.grid(row=3, column=5)
 	finish_ms.grid(row=3, column=7)
 
-
 	def calculate_timing(event=None):
 
 		valid_entries = [0 if entry.get() == "" else entry.get() for entry in entries]
@@ -135,13 +135,19 @@ def main():
 		command=calculate_timing)
 
 	def clear_input():
+
+		# clear data input
 		for entry in entries:
-			entry.delete(0, tk.END) 
+			entry.delete(0, tk.END)
+
+		# clear result
+		phase1_result_label['text'] = "00:00:00.000" 
+		phase2_result_label['text'] = "00:00:00.000" 
 		return
 
 	clear_button = tk.Button(
 		master=button_frame, 
-		text="Clear",
+		text="Clear All",
 		command=clear_input)
 
 	calculate_button.bind("<Button-1>", calculate_timing)
