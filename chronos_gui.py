@@ -33,9 +33,9 @@ def main():
 	window.geometry("300x300")
 	window.resizable(width=False, height=False)
 
-	input_frame = 	tk.Frame(master=window, width=300, height=200)
-	button_frame = 	tk.Frame(master=window, width=300, height=100)
-	result_frame = 	tk.Frame(master=window, width=300, height=100)
+	input_frame = 	tk.Frame(master=window, height=200)
+	button_frame = 	tk.Frame(master=window, height=100)
+	result_frame = 	tk.Frame(master=window, height=100)
 
 	input_frame.grid(row=0, column=0, padx=10) #padx, pady)
 	button_frame.grid(row=1, column=0)
@@ -126,6 +126,7 @@ def main():
 
 		phase1_result_label["text"] = strfdelta(phase1, "%H:%M:%S.%f")
 		phase2_result_label["text"] = strfdelta(phase2, "%H:%M:%S.%f")
+		return 
 
 	# also enable enter key detection
 	calculate_button = tk.Button(
@@ -133,11 +134,21 @@ def main():
 		text="Calculate",
 		command=calculate_timing)
 
-	calculate_button.grid(row=1, column=0, pady=10)
-	# calculate_button.pack()
+	def clear_input():
+		for entry in entries:
+			entry.delete(0, tk.END) 
+		return
+
+	clear_button = tk.Button(
+		master=button_frame, 
+		text="Clear",
+		command=clear_input)
 
 	calculate_button.bind("<Button-1>", calculate_timing)
 	window.bind("<Return>", calculate_timing)
+
+	calculate_button.grid(row=1, column=1, pady=10, padx=10)
+	clear_button.grid(row=1, column=0, pady=10, padx=10)
 
 	phase1_result_label = tk.Label(master=result_frame, 
 								   text="00:00:00.000", 
