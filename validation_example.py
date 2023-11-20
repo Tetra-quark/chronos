@@ -1,17 +1,17 @@
 """
-Try and merge this with chronos GUI so that Entry Fields have appropriate character limits. 
+Try and merge this with chronos GUI so that Entry Fields have appropriate character limits.
+# sophisticated solution: https://www.pythontutorial.net/tkinter/tkinter-validation/
 """
 
-import tkinter as tk  # python 3.x
-# import Tkinter as tk # python 2.x
+import tkinter as tk
+from tkinter import ttk
 
-class InputFrame(tk.Frame):
 
-    def __init__(self, parent, fg="black", bg="white"):
-        tk.Frame.__init__(self, parent)
+class ValidateSingleEntry(ttk.Frame):
 
-        hms_width = 2
-        ms_width = 3    
+    def __init__(self, parent: tk.Tk, width: int, fg="black", bg="white"):
+        ttk.Frame.__init__(self, parent)
+        self.width = width
 
         # valid percent substitutions (from the Tk entry man page)
         # note: you only have to register the ones you need; this
@@ -27,30 +27,44 @@ class InputFrame(tk.Frame):
         #      (key, focusin, focusout, forced)
         # %W = the tk name of the widget
 
-        vcmd_hms = (self.register(self.onValidate), '%i', 2) # only 2 digit allowed
-        vcmd_ms = (self.register(self.onValidate), '%i', 3) # only 3 digits allowed
-        self.entry_h = tk.Entry(self, fg=fg, bg=bg, width=hms_width, validate="key", validatecommand=vcmd_hms)
-        self.entry_m = tk.Entry(self, fg=fg, bg=bg, width=hms_width, validate="key", validatecommand=vcmd_hms)
-        self.entry_s = tk.Entry(self, fg=fg, bg=bg, width=hms_width, validate="key", validatecommand=vcmd_hms)
-        self.entry_ms = tk.Entry(self, fg=fg, bg=bg, width=ms_width, validate="key", validatecommand=vcmd_ms)
+        vcmd = (self.register(self.validate), '%d', '%P')
+        self.entry = ttk.Entry(
+            self,
+            width=self.width,
+            validate='key',
+            validatecommand=vcmd,
+            foreground=fg,
+            background=bg,
+        )
+        self.entry.pack()
 
-        self.entry_h.grid(row=1, column=1)
-        self.entry_m.grid(row=1, column=3)
-        self.entry_s.grid(row=1, column=5)
-        self.entry_ms.grid(row=1, column=7)
-
-    def onValidate(self, i, width):
-        # Disallow anything but lowercase letters
-        if int(i) <= int(width) - 1:
-            return True
-        else:
+    def validate(self, d, P):  # i = index, S = insert character, d = action, P = entry value
+        if len(P) == self.width and d != 0:
+            self.entry.tk_focusNext().focus()
+        elif len(P) > self.width:
             self.bell()
             return False
+        return True
+
+
+def time_input(parent):
+    entry1 = ValidateSingleEntry(parent, width=2)
+    entry2 = ValidateSingleEntry(parent, width=2)
+    entry3 = ValidateSingleEntry(parent, width=2)
+    entry4 = ValidateSingleEntry(parent, width=3)
+
+    # layout
+    entry1.grid(row=1, column=1)
+    entry2.grid(row=1, column=3)
+    entry3.grid(row=1, column=5)
+    entry4.grid(row=1, column=7)
+
+
+def main2():
+    window = tk.Tk()
+    time_input(window)
+    window.mainloop()
+
 
 if __name__ == "__main__":
-    window = tk.Tk()
-    InputFrame(window, fg="blue").pack(fill="both", expand=True)
-    InputFrame(window, fg="black").pack(fill="both", expand=True)
-    InputFrame(window, fg="magenta").pack(fill="both", expand=True)
-    window.update_idletasks()
-    window.mainloop()
+    main2()
