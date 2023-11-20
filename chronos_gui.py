@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import ttk
 from string import Template
 import chronos
 
@@ -29,46 +30,46 @@ def main():
     window.resizable(width=False, height=False)
 
     # Initialise and position frames
-    input_frame = tk.Frame(master=window, height=200)
-    button_frame = tk.Frame(master=window, height=100)
-    result_frame = tk.Frame(master=window, height=100)
+    input_frame = ttk.Frame(master=window, height=200)
+    button_frame = ttk.Frame(master=window, height=100)
+    result_frame = ttk.Frame(master=window, height=100)
 
     input_frame.grid(row=0, column=0, padx=10)  # padx, pady)
     button_frame.grid(row=1, column=0)
     result_frame.grid(row=2, column=0, sticky='nesw')
 
-    start_h = tk.Entry(master=input_frame, fg="blue", bg="white", width=2)
-    start_m = tk.Entry(master=input_frame, fg="blue", bg="white", width=2)
-    start_s = tk.Entry(master=input_frame, fg="blue", bg="white", width=2)
-    start_ms = tk.Entry(master=input_frame, fg="blue", bg="white", width=3)
+    start_h = ttk.Entry(master=input_frame, foreground="blue", background="white", width=2)
+    start_m = ttk.Entry(master=input_frame, foreground="blue", background="white", width=2)
+    start_s = ttk.Entry(master=input_frame, foreground="blue", background="white", width=2)
+    start_ms = ttk.Entry(master=input_frame, foreground="blue", background="white", width=3)
 
-    inter_h = tk.Entry(master=input_frame, fg="black", bg="white", width=2)
-    inter_m = tk.Entry(master=input_frame, fg="black", bg="white", width=2)
-    inter_s = tk.Entry(master=input_frame, fg="black", bg="white", width=2)
-    inter_ms = tk.Entry(master=input_frame, fg="black", bg="white", width=3)
+    inter_h = ttk.Entry(master=input_frame, foreground="black", background="white", width=2)
+    inter_m = ttk.Entry(master=input_frame, foreground="black", background="white", width=2)
+    inter_s = ttk.Entry(master=input_frame, foreground="black", background="white", width=2)
+    inter_ms = ttk.Entry(master=input_frame, foreground="black", background="white", width=3)
 
-    finish_h = tk.Entry(master=input_frame, fg="magenta", bg="white", width=2)
-    finish_m = tk.Entry(master=input_frame, fg="magenta", bg="white", width=2)
-    finish_s = tk.Entry(master=input_frame, fg="magenta", bg="white", width=2)
-    finish_ms = tk.Entry(master=input_frame, fg="magenta", bg="white", width=3)
+    finish_h = ttk.Entry(master=input_frame, foreground="magenta", background="white", width=2)
+    finish_m = ttk.Entry(master=input_frame, foreground="magenta", background="white", width=2)
+    finish_s = ttk.Entry(master=input_frame, foreground="magenta", background="white", width=2)
+    finish_ms = ttk.Entry(master=input_frame, foreground="magenta", background="white", width=3)
 
     entries = [start_h, start_m, start_s, start_ms, inter_h, inter_m, inter_s, inter_ms, finish_h, finish_m, finish_s,
                finish_ms]
 
-    # timestring = tk.Entry(master=input_frame, fg="blue", bg="white", width=5)
+    # timestring = ttk.Entry(master=input_frame, foreground="blue", background="white", width=5)
 
     # process input
-    start_label = tk.Label(master=input_frame, text="START: ")
-    inter_label = tk.Label(master=input_frame, text="INTER: ")
-    finish_label = tk.Label(master=input_frame, text="FINISH: ")
+    start_label = ttk.Label(master=input_frame, text="START: ")
+    inter_label = ttk.Label(master=input_frame, text="INTER: ")
+    finish_label = ttk.Label(master=input_frame, text="FINISH: ")
 
-    colon = [tk.Label(master=input_frame, text=":") for _ in range(6)]
-    fullstop = [tk.Label(master=input_frame, text=".") for _ in range(3)]
+    colon = [ttk.Label(master=input_frame, text=":") for _ in range(6)]
+    fullstop = [ttk.Label(master=input_frame, text=".") for _ in range(3)]
 
-    hr_label = tk.Label(master=input_frame, text="hr")
-    min_label = tk.Label(master=input_frame, text="min")
-    sec_label = tk.Label(master=input_frame, text="sec")
-    ms_label = tk.Label(master=input_frame, text="ms")
+    hr_label = ttk.Label(master=input_frame, text="hr")
+    min_label = ttk.Label(master=input_frame, text="min")
+    sec_label = ttk.Label(master=input_frame, text="sec")
+    ms_label = ttk.Label(master=input_frame, text="ms")
 
     hr_label.grid(row=0, column=1)  # , sticky="w")N.E.S.W.
     min_label.grid(row=0, column=3)
@@ -123,7 +124,7 @@ def main():
         return
 
     # also enable enter key detection
-    calculate_button = tk.Button(
+    calculate_button = ttk.Button(
         master=button_frame,
         text="Calculate",
         command=calculate_timing)
@@ -138,7 +139,7 @@ def main():
         phase2_result_label['text'] = "00:00:00.000"
         return
 
-    clear_button = tk.Button(
+    clear_button = ttk.Button(
         master=button_frame,
         text="Clear All",
         command=clear_input)
@@ -149,34 +150,41 @@ def main():
     calculate_button.grid(row=1, column=1, pady=10, padx=10)
     clear_button.grid(row=1, column=0, pady=10, padx=10)
 
-    phase1_result_label = tk.Label(master=result_frame,
-                                   text="00:00:00.000",
-                                   fg="green",
-                                   bg="black",
-                                   padx="80",
-                                   pady="5")
+    phase1_result_label = ttk.Label(
+        master=result_frame,
+        text="00:00:00.000",
+        foreground="green",
+        background="black",
+        padding=(80, 5),
 
-    phase2_result_label = tk.Label(master=result_frame,
-                                   text="00:00:00.000",
-                                   fg="green",
-                                   bg="black",
-                                   padx="80",
-                                   pady="5")
+    )
+
+    phase2_result_label = ttk.Label(
+        master=result_frame,
+        text="00:00:00.000",
+        foreground="green",
+        background="black",
+        padding=(80, 5),
+    )
 
     phase1_result_label.config(font=("TkFixedFont", 24))
     phase2_result_label.config(font=("TkFixedFont", 24))
 
-    phase1_label = tk.Label(master=result_frame,
-                            text="Phase 1",
-                            fg="red",
-                            bg="black",
-                            padx="80")
+    phase1_label = ttk.Label(
+        master=result_frame,
+        text="Phase 1",
+        foreground="red",
+        background="black",
+        padding=(80, 0),
+    )
 
-    phase2_label = tk.Label(master=result_frame,
-                            text="Phase 2",
-                            fg="red",
-                            bg="black",
-                            padx="80")
+    phase2_label = ttk.Label(
+        master=result_frame,
+        text="Phase 2",
+        foreground="red",
+        background="black",
+        padding=(80, 0),
+    )
 
     phase1_label.config(font=("TkDefaultFont", 14))
     phase2_label.config(font=("TkDefaultFont", 14))
@@ -196,30 +204,6 @@ def main():
 
     window.update_idletasks()
     window.mainloop()
-
-
-def example_code():
-    """Deprecated example code from tkinter tutorial"""
-
-    # can also specify hex colours
-    title = tk.Label(text="Precision Timing Calculator",
-                     bg="black",
-                     fg="white",
-                     width=20,
-                     height=3,
-                     )
-
-    # mac doesn't support coloured bg buttons
-    button = tk.Button(
-        text="Calculate",
-        width=10,
-        height=3,
-        fg="black",
-        highlightbackground="blue",
-    )
-
-    title.pack()
-    button.pack()
 
 
 if __name__ == '__main__':
