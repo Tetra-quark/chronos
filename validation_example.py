@@ -7,9 +7,9 @@ import tkinter as tk
 from tkinter import ttk
 
 
-class ValidateSingleEntry(ttk.Frame):
+class ValidatedEntry(ttk.Frame):
 
-    def __init__(self, parent: tk.Tk, width: int, fg="black", bg="white"):
+    def __init__(self, parent: tk.Tk, width: int, foreground="black", background="white"):
         ttk.Frame.__init__(self, parent)
         self.width = width
 
@@ -33,8 +33,8 @@ class ValidateSingleEntry(ttk.Frame):
             width=self.width,
             validate='key',
             validatecommand=vcmd,
-            foreground=fg,
-            background=bg,
+            foreground=foreground,
+            background=background,
         )
         self.entry.pack()
 
@@ -47,24 +47,36 @@ class ValidateSingleEntry(ttk.Frame):
         return True
 
 
-def time_input(parent):
-    entry1 = ValidateSingleEntry(parent, width=2)
-    entry2 = ValidateSingleEntry(parent, width=2)
-    entry3 = ValidateSingleEntry(parent, width=2)
-    entry4 = ValidateSingleEntry(parent, width=3)
+def validated_time_entry(parent, foreground, row):
+
+    ve1 = ValidatedEntry(parent, foreground=foreground, background="white", width=2)
+    ve2 = ValidatedEntry(parent, foreground=foreground, background="white", width=2)
+    ve3 = ValidatedEntry(parent, foreground=foreground, background="white", width=2)
+    ve4 = ValidatedEntry(parent, foreground=foreground, background="white", width=3)
 
     # layout
-    entry1.grid(row=1, column=1)
-    entry2.grid(row=1, column=3)
-    entry3.grid(row=1, column=5)
-    entry4.grid(row=1, column=7)
+    ve1.grid(row=row, column=1)
+    ttk.Label(master=parent, text=":").grid(row=row, column=2)
+    ve2.grid(row=row, column=3)
+    ttk.Label(master=parent, text=":").grid(row=row, column=4)
+    ve3.grid(row=row, column=5)
+    ttk.Label(master=parent, text=".").grid(row=row, column=6)
+    ve4.grid(row=row, column=7)
 
 
-def main2():
+def main():
     window = tk.Tk()
-    time_input(window)
+    validated_time_entry(window,
+                         foreground="blue",
+                         row=1)
+    validated_time_entry(window,
+                         foreground="black",
+                         row=2)
+    validated_time_entry(window,
+                         foreground="magenta",
+                         row=3)
     window.mainloop()
 
 
 if __name__ == "__main__":
-    main2()
+    main()
