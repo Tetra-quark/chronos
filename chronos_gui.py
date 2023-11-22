@@ -1,4 +1,5 @@
 import tkinter as tk
+from datetime import timedelta
 from tkinter import ttk
 from string import Template
 import chronos
@@ -8,7 +9,8 @@ class DeltaTemplate(Template):
     delimiter = "%"
 
 
-def strfdelta(tdelta, fmt):
+def strfdelta(tdelta: timedelta, fmt: str):
+    """Convert a timedelta object into a custom-formatted string"""
     d = {"D": tdelta.days}
     hours, rem = divmod(tdelta.total_seconds(), 3600)
     minutes, precise_sec = divmod(rem, 60)
@@ -26,7 +28,7 @@ def main():
     window = tk.Tk()
 
     window.title("Precision Timing Calculator")
-    window.geometry("300x300")
+    # window.geometry("300x300")
     window.resizable(width=False, height=False)
 
     # Initialise and position frames
@@ -202,7 +204,7 @@ def main():
     # - delete text: .delete()
     # - insert text: .insert()
 
-    window.update_idletasks()
+    # window.update_idletasks()
     window.mainloop()
 
 
