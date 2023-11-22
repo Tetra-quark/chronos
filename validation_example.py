@@ -4,13 +4,14 @@ Try and merge this with chronos GUI so that Entry Fields have appropriate charac
 """
 
 import tkinter as tk
+from dataclasses import dataclass
 from tkinter import ttk
 
 
 class ValidatedEntry(ttk.Frame):
 
-    def __init__(self, parent: tk.Tk, width: int, foreground="black", background="white"):
-        ttk.Frame.__init__(self, parent)
+    def __init__(self, master: ttk.Frame, width: int, foreground="black", background="white"):
+        ttk.Frame.__init__(self, master)
         self.width = width
 
         # valid percent substitutions (from the Tk entry man page)
@@ -47,34 +48,70 @@ class ValidatedEntry(ttk.Frame):
         return True
 
 
-def validated_time_entry(parent, foreground, row):
+@dataclass
+class ValidatedTimeEntry:
+    master: ttk.Frame | tk.Tk
+    text_color: str = "black"
+    background_color: str = "white"
 
-    ve1 = ValidatedEntry(parent, foreground=foreground, background="white", width=2)
-    ve2 = ValidatedEntry(parent, foreground=foreground, background="white", width=2)
-    ve3 = ValidatedEntry(parent, foreground=foreground, background="white", width=2)
-    ve4 = ValidatedEntry(parent, foreground=foreground, background="white", width=3)
+    def __post_init__(self):
+        self.hours = ValidatedEntry(
+            master=self.master,
+            foreground=self.text_color,
+            background=self.background_color,
+            width=2,
+        )
+        self.minutes = ValidatedEntry(
+            master=self.master,
+            foreground=self.text_color,
+            background=self.background_color,
+            width=2,
+        )
+        self.seconds = ValidatedEntry(
+            master=self.master,
+            foreground=self.text_color,
+            background=self.background_color,
+            width=2,
+        )
+        self.milliseconds = ValidatedEntry(
+            master=self.master,
+            foreground=self.text_color,
+            background=self.background_color,
+            width=3,
+        )
 
-    # layout
-    ve1.grid(row=row, column=1)
-    ttk.Label(master=parent, text=":").grid(row=row, column=2)
-    ve2.grid(row=row, column=3)
-    ttk.Label(master=parent, text=":").grid(row=row, column=4)
-    ve3.grid(row=row, column=5)
-    ttk.Label(master=parent, text=".").grid(row=row, column=6)
-    ve4.grid(row=row, column=7)
+    def position(self, row):
+        self.hours.grid(row=row, column=1)
+        self.minutes.grid(row=row, column=3)
+        self.seconds.grid(row=row, column=5)
+        self.milliseconds.grid(row=row, column=7)
+
+        ttk.Label(master=self.master, text=":").grid(row=row, column=2)
+        ttk.Label(master=self.master, text=":").grid(row=row, column=4)
+        ttk.Label(master=self.master, text=".").grid(row=row, column=6)
 
 
 def main():
     window = tk.Tk()
-    validated_time_entry(window,
-                         foreground="blue",
-                         row=1)
-    validated_time_entry(window,
-                         foreground="black",
-                         row=2)
-    validated_time_entry(window,
-                         foreground="magenta",
-                         row=3)
+
+    start = ValidatedTimeEntry(
+        master=window,
+        text_color="blue",
+    )
+    start.position(row=0)
+
+    inter = ValidatedTimeEntry(
+        master=window,
+        text_color="black",
+    )
+    inter.position(row=1)
+
+    stop = ValidatedTimeEntry(
+        master=window,
+        text_color="magenta",
+    )
+    stop.position(row=2)
+
     window.mainloop()
 
 
