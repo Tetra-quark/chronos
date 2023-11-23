@@ -1,11 +1,13 @@
 """
-Try and merge this with chronos GUI so that Entry Fields have appropriate character limits.
-# sophisticated solution: https://www.pythontutorial.net/tkinter/tkinter-validation/
+Validated Time Entry class.
+Bunch of width validated entries that make up a timestamp.
+Also focuses on the next entry when the current entry is filled.
 """
 
 import tkinter as tk
-from dataclasses import dataclass
 from tkinter import ttk
+from dataclasses import dataclass
+from datetime import datetime
 
 
 class ValidatedEntry(ttk.Frame):
@@ -46,6 +48,11 @@ class ValidatedEntry(ttk.Frame):
             self.bell()
             return False
         return True
+
+    def get(self) -> str:
+        if self.entry.get() == "":
+            return "0"  # TODO rethink this
+        return self.entry.get()
 
 
 @dataclass
@@ -90,30 +97,53 @@ class ValidatedTimeEntry:
         ttk.Label(master=self.master, text=":").grid(row=row, column=4)
         ttk.Label(master=self.master, text=".").grid(row=row, column=6)
 
+    def get_hmsms(self) -> tuple[str, str, str, str]:
+        return (
+            self.hours.get(),
+            self.minutes.get(),
+            self.seconds.get(),
+            self.milliseconds.get(),
+        )
 
-def main():
-    window = tk.Tk()
+    @staticmethod
+    def join_timestamp_str(h: str, m: str, s: str, ms: str) -> str:
+        """Joins individual hour, minute, second, millisecond strings into one timestamp string"""
+        return f"{h}:{m}:{s}.{ms}"
+
+    def time(self) -> datetime:
+        """Returns datetime object from timestamp string"""
+        timestamp = self.join_timestamp_str(*self.get_hmsms())
+        return datetime.strptime(timestamp, "%H:%M:%S.%f")
+
+    def clear_all(self):
+        self.hours.entry.delete(0, 'end')  # tk.END?
+        self.minutes.entry.delete(0, 'end')
+        self.seconds.entry.delete(0, 'end')
+        self.milliseconds.entry.delete(0, 'end')
+
+
+def example(master: tk.Tk):
 
     start = ValidatedTimeEntry(
-        master=window,
+        master=master,
         text_color="blue",
     )
     start.position(row=0)
 
     inter = ValidatedTimeEntry(
-        master=window,
+        master=master,
         text_color="black",
     )
     inter.position(row=1)
 
-    stop = ValidatedTimeEntry(
-        master=window,
+    finish = ValidatedTimeEntry(
+        master=master,
         text_color="magenta",
     )
-    stop.position(row=2)
-
-    window.mainloop()
+    finish.position(row=2)
 
 
 if __name__ == "__main__":
-    main()
+    window = tk.Tk()
+    example(master=window)
+    window.mainloop()
