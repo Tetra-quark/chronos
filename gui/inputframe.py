@@ -2,7 +2,8 @@ import tkinter as tk
 from tkinter import ttk
 from datetime import timedelta
 
-from mscalculator.chronos import chronos, gui
+import chronos
+from gui.validatedtimeentry import ValidatedTimeEntry
 
 
 class InputFrame:
@@ -11,15 +12,15 @@ class InputFrame:
         self.master = master
 
         # Entries
-        self.start_entry = gui.ValidatedTimeEntry(
+        self.start_entry = ValidatedTimeEntry(
             master=self.master,
             text_color="blue",
         )
-        self.inter_entry = gui.ValidatedTimeEntry(
+        self.inter_entry = ValidatedTimeEntry(
             master=self.master,
             text_color="black",
         )
-        self.finish_entry = gui.ValidatedTimeEntry(
+        self.finish_entry = ValidatedTimeEntry(
             master=self.master,
             text_color="magenta",
         )

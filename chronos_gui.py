@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 import functools
 
-from mscalculator.chronos.gui import ButtonFrame, InputFrame, ResultFrame, calculate_timing, clear_all
+from gui import ButtonFrame, InputFrame, ResultFrame, calculate_timing, clear_all
 
 
 def main():
