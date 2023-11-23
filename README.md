@@ -1,11 +1,10 @@
-# Chronos: a high precision timing calculator. 
+# :clock5: Chronos: a high precision timing calculator. 
 
-Simple module implementing a high precision (millisecond) timing calculator to assist in verifying and correcting times when confusion or interruptions occur at show-jumping competitions. Far from perfect, lots of room for improvement but does the job.
+Simple module and GUI implementing a high precision (millisecond) timing calculator to assist in auditing and 
+correcting timing results for show-jumping competitions.
 
-It is recommended to use the GUI rather than the chronos module directly, just run `python chronos_gui.py` in a terminal. 
+- To get started run `python chronos_gui.py` in a terminal.
+- All dependencies are included in Python's standard library.
 
-Dependencies:
-- tkinter (GUI)
-- timedelta
+Last updated by Jeffrey Koppanyi on 23/11/23
 
-Jeffrey Koppanyi 01/10/22
